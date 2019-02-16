@@ -186,7 +186,7 @@ form.search input[type=submit] {
 .product {
   display: block;
   float: left;
-  width: 360px;
+  width: 330px;
   margin: 0 40px 40px 0;
   box-shadow: 0 7px 16px -2px rgba(0,0,0,.3);
 }
