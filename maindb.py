@@ -37,7 +37,7 @@ def RasterizeData(UserName, Firebase):
         LotPPH = v['pricing']
         LotTimeStart = v['time-start']
         LotTimeEnd = v['time-end']
-        tmp = [LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTimeEnd]
+        tmp = [CurrentLot, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTimeEnd]
         arr.append(tmp)
     
     return UserFullName, UserPhone, arr
@@ -64,4 +64,4 @@ def AddUser():
     }
     firebase.post(f'/Users/{str(UserName)}', None, UserData)
 
-#GetData("User1")
+#GetData()
