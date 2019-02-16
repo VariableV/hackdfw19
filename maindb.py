@@ -1,8 +1,10 @@
-import requests, json, time, datetime
+import requests, json, time, datetime, random
 from firebase import firebase
 
 global FirebaseURL
+global PasswordString
 FirebaseURL = 'https://lendaspacev2.firebaseio.com/'
+PasswordString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
 #Go Through Users
 def GetData():
@@ -10,9 +12,10 @@ def GetData():
     UsersData = Firebase.get('/Users', None)
     arr = []
     for key,value in UsersData.items():
-        UserFullName, UserPhone, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTImeEnd = RasterizeData(key, Firebase)
-        tmp = [UserFullName, UserPhone, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTImeEnd]
+        UserFullName, UserPhone, arr = RasterizeData(key, Firebase)
+        tmp = [UserFullName, UserPhone, arr]
         arr.append(tmp)
+
     return arr
 
 #Get All Data From Specific User
@@ -22,18 +25,22 @@ def RasterizeData(UserName, Firebase):
     UserParking = CurentUser['UserParking']
 
     UserFullName = UserInfo['name']
-    UserPassword = UserInfo['password']
+    #UserPassword = UserInfo['password']
     UserPhone = UserInfo['phone']
 
-    LotLocation = UserParking['address']
-    LotCount = UserParking['count']
-    LotImage = UserParking['imageURL']
-    LotName = UserParking['lotname']
-    LotPPH = UserParking['pricing']
-    LotTimeStart = UserParking['time-start']
-    LotTImeEnd = UserParking['time-end']
-
-    return UserFullName, UserPhone, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTImeEnd
+    arr = []
+    for CurrentLot,v in UserParking.items():
+        LotLocation = v['address']
+        LotCount = v['count']
+        LotImage = v['imageURL']
+        LotName = v['lotname']
+        LotPPH = v['pricing']
+        LotTimeStart = v['time-start']
+        LotTimeEnd = v['time-end']
+        tmp = [LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTimeEnd]
+        arr.append(tmp)
+    
+    return UserFullName, UserPhone, arr
 
 #Add User To Database
 def AddUser():
