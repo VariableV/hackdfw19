@@ -1,5 +1,12 @@
 <main>
     <header>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+            <!-- jQuery library -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            
+            <!-- Latest compiled JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
       <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
       <h1 id="logo"><a href="">Lend-A-Space</a></h1>
       <nav>
@@ -36,6 +43,9 @@ solidifying its iconic status for years to come.</p>
     </section>
     -->
     <br>
+    
+
+<!-- Modal -->
 
     {% for item in data %}
     <section class="product grid1">
@@ -45,7 +55,27 @@ solidifying its iconic status for years to come.</p>
         <small><a href="{{ item[3]}}">{{ item[2]}}</a></small>
         <span class="size">Lot capacity: {{item[4]}}</span>
         <span class="price">${{item[5]}}</span>
-        <a href="" class="button small blue">Rent</a>
+        <!--<a href="" class="button small blue">Rent</a>-->
+        <div id="myModal{{item[4]}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+            
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">{{item[1]}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+            
+                </div>
+                </div>
+        <button type="button" class="button small blue" data-toggle="modal" data-target="#myModal{{item[4]}}">Rent</button>
       </div>
     </section>
     {% endfor %}
