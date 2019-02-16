@@ -8,10 +8,12 @@ FirebaseURL = 'https://lendaspacev2.firebaseio.com/'
 def GetData():
     Firebase = firebase.FirebaseApplication(FirebaseURL, None)
     UsersData = Firebase.get('/Users', None)
-    UserAmount = len(UsersData)
-
-    UserName = input("UserName: ")
-    UserFullName, UserPassword, UserPhone, LotLocation, LotCount, LotImage, LotPPH, LotTimeStart, LotTImeEnd = RasterizeData(UserName, Firebase)
+    arr = []
+    for key,value in UsersData.items():
+        UserFullName, UserPhone, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTImeEnd = RasterizeData(key, Firebase)
+        tmp = [UserFullName, UserPhone, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTImeEnd]
+        arr.append(tmp)
+    return arr
 
 #Get All Data From Specific User
 def RasterizeData(UserName, Firebase):
@@ -26,11 +28,12 @@ def RasterizeData(UserName, Firebase):
     LotLocation = UserParking['address']
     LotCount = UserParking['count']
     LotImage = UserParking['imageURL']
+    LotName = UserParking['lotname']
     LotPPH = UserParking['pricing']
     LotTimeStart = UserParking['time-start']
     LotTImeEnd = UserParking['time-end']
 
-    return UserFullName, UserPassword, UserPhone, LotLocation, LotCount, LotImage, LotPPH, LotTimeStart, LotTImeEnd
+    return UserFullName, UserPhone, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTImeEnd
 
 #Add User To Database
 def AddUser():
@@ -46,6 +49,7 @@ def AddUser():
             "address":LotLocation,
             "count": LotCount,
             "imageURL": ImageURL,
+            "lotname": LotName,
             "pricing": LotPPH,
             "time-end": LotTimeEnd,
             "time-start": LotTimeStart
@@ -53,5 +57,4 @@ def AddUser():
     }
     firebase.post(f'/Users/{str(UserName)}', None, UserData)
 
-
-GetData()
+#GetData("User1")

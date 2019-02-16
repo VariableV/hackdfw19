@@ -39,12 +39,12 @@ solidifying its iconic status for years to come.</p>
 
     {% for item in data %}
     <section class="product grid1">
-      <img src="{{ item[0] }}" alt="" />
+      <img src="{{ item[0] }}" alt="" style="height:282px;width:360px"/>
       <div class="info">
         <h1>{{ item[1]}}</h1>
         <small><a href="{{ item[3]}}">{{ item[2]}}</a></small>
         <span class="size">Lot capacity: {{item[4]}}</span>
-        <span class="price">${{item[5]}}/hr</span>
+        <span class="price">${{item[5]}}</span>
         <a href="" class="button small blue">Rent</a>
       </div>
     </section>
