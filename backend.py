@@ -7,9 +7,9 @@ web = Flask(__name__)
 """
 Things to do
 -> Purchase button
--> Register
--> Login
--> Add a lot button
+-> Register (FUNCTION-owen + HTML-maheen)
+-> Login (FUNCTION-owen + HTML-maheen)
+-> Add a Lot (FUNCTION-owen + HTML-maheen)
 """
 
 

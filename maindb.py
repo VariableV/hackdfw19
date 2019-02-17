@@ -4,7 +4,7 @@ from firebase import firebase
 global FirebaseURL
 global PasswordString
 FirebaseURL = 'https://lendaspacev2.firebaseio.com/'
-PasswordString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+LotIDString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
 #Go Through Users
 def GetData():
@@ -12,14 +12,14 @@ def GetData():
     UsersData = Firebase.get('/Users', None)
     arr = []
     for key,value in UsersData.items():
-        UserFullName, UserPhone, xd = RasterizeData(key, Firebase)
+        UserFullName, UserPhone, xd = IterateData(key, Firebase)
         tmp = [UserFullName, UserPhone, xd]
         arr.append(tmp)
 
     return arr
 
 #Get All Data From Specific User
-def RasterizeData(UserName, Firebase):
+def IterateData(UserName, Firebase):
     CurentUser = Firebase.get('/Users', f'{str(UserName)}')
     UserInfo = CurentUser['UserInfo']
     UserParking = CurentUser['UserParking']
@@ -43,7 +43,7 @@ def RasterizeData(UserName, Firebase):
     return UserFullName, UserPhone, arr
 
 #Add User To Database
-def AddUser():
+def RegisterUser():
     UserName = input("UserName: ")
     firebase = firebase.FirebaseApplication(FirebaseURL, None)
     UserData = {
@@ -64,4 +64,9 @@ def AddUser():
     }
     firebase.post(f'/Users/{str(UserName)}', None, UserData)
 
-#GetData()
+#Add A Lot
+def AddLot():
+    LotID = ""
+    for x in range(24):
+        Letter = random.choice(LotIDString)
+        LotID = LotID + Letter
