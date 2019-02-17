@@ -8,9 +8,9 @@ web = Flask(__name__)
 """
 Things to do
 -> Purchase button
--> Register (FUNCTION-owen + HTML-maheen)
--> Login (FUNCTION-owen + HTML-maheen)
--> Add a Lot (FUNCTION-owen + HTML-maheen)
+-> Home Page
+-> Account Tab Has Purchased Spots
+-> Fix Start / End Time
 """
 
 
@@ -58,13 +58,12 @@ def rentpage():
 
 @web.route("/login", methods=["POST"])
 def login():
-    if request.form["user"] == "admin" and request.form["password"] == "pwd":
+    if (maindb.LoginUser(request.form['user'], request.form['password'])) == True:
         session["logged_in"] = True
         session["user"] = request.form["user"]
-        print("hi")
     else:
         flash("Incorrect credentials!")
-    return main()
+    return redirect("/account")
 
 # account page
 @web.route("/account")
