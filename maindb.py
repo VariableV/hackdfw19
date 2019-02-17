@@ -33,7 +33,7 @@ def IterateData(UserName, Firebase):
 
     arr = []
     for CurrentLot,v in UserParking.items():
-        LotLocation = v['address']
+        LotLocation = v.get('address')
         LotCount = v['count']
         LotImage = v['imageURL']
         LotName = v['lotname']

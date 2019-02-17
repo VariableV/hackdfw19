@@ -126,4 +126,4 @@ def purchase():
 
 if __name__ == "__main__":
     web.secret_key = os.urandom(12)
-    web.run(host='0.0.0.0')
+    web.run()
