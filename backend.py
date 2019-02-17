@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, flash, render_template, session, request, redirect
 import maindb
 import json
+import os
 
 web = Flask(__name__)
 
@@ -27,19 +28,6 @@ Things to do
     ]]
     ]
 """
-
-@web.route("/rent")
-def penis():
-    x = maindb.GetData()
-    data = []
-    for i in x:
-        important = i[2]
-        for j in range(0, len(important)):
-            # image, lotname, lotloc, googlemaps, lotcount, lotpph, name, phone, end time, start time
-            tmp = [important[j][3], important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7]]
-            data.append(tmp)
-    return render_template("rent-out.html", data = data)
-
 @web.route("/")
 def main():
     # data format:
@@ -54,6 +42,79 @@ def main():
     #]
     return render_template("index.html")
 
+@web.route("/rent")
+def rentpage():
+    if not session.get("logged_in"):
+        return render_template("login.html")
+    x = maindb.GetData()
+    data = []
+    for i in x:
+        important = i[2]
+        for j in range(0, len(important)):
+            # image, lotname, lotloc, googlemaps, lotcount, lotpph, name, phone, end time, start time
+            tmp = [important[j][3], important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7]]
+            data.append(tmp)
+    return render_template("rent-out.html", data = data)
+
+@web.route("/login", methods=["POST"])
+def login():
+    if request.form["user"] == "admin" and request.form["password"] == "pwd":
+        session["logged_in"] = True
+        print("hi")
+    else:
+        flash("Incorrect credentials!")
+    return main()
+
+# account page
+@web.route("/account")
+def acc():
+    if (not session.get("logged_in")):
+        return render_template("login.html")
+    else:
+        return render_template("account.html")
+
+# user logs out
+@web.route("/logout", methods=["GET"])
+def logout():
+    session["logged_in"] = False
+    return main()
+
+# register
+@web.route("/register")
+def page():
+    return render_template("register.html")
+
+@web.route("/reg_backend", methods=["POST"])
+def page_backend():
+    if (len(request.form["name"]) == 0 or
+    len(request.form["username"]) == 0 or
+    len(request.form["password"]) == 0 or
+    len(request.form["email"]) == 0 or
+    len(request.form["phonenumber"]) == 0):
+        flash("nope")
+    else:
+        print("time to do the magic")
+    # to fill with owen's info
+    return main()
+
+# submit
+@web.route("/submit")
+def submit_frontend():
+    return render_template("submit.html")
+@web.route("/submit_bknd", methods=["POST"])
+def submit_backend():
+    if (len(request.form["address"]) == 0 or
+    len(request.form["count"]) == 0 or
+    len(request.form["imageurl"]) == 0 or
+    len(request.form["lotname"]) == 0 or
+    len(request.form["pricing"]) == 0 or
+    len(request.form["start"]) == 0 or
+    len(request.form["end"]) == 0):
+        flash("nope")
+    else:
+        print("time to do the magic")
+    return redirect("/rent")
 
 if __name__ == "__main__":
+    web.secret_key = os.urandom(12)
     web.run()
