@@ -47,6 +47,7 @@
               <h4 class="modal-title">{{item[1]}}</h4>
             </div>
             <div class="modal-body">
+              <section>
               <p><b>Contact name:</b> {{item[6]}}<br>
                 <b>Contact phone:</b> {{item[7]}}<br>
                 <b>Lot address:</b><a href="{{ item[3]}}"> {{ item[2]}}</a><br>
@@ -55,6 +56,19 @@
                 <b>Rent start time:</b> {{item[9]}}<br>
                 <b>Rent end time:</b> {{item[8]}}
               </p>
+              <section>
+              <div class="form">
+                <form action="/purchase" method="post">
+                <input type="hidden" name="lotid" value="{{item[10]}}">
+                <button class="button small blue">Purchase</button>
+              </form>
+            </div>
+              <!--<div class="form">
+                  <form class="register-form" action="/reg_backend" method="post">
+                      <button>Register</button>
+                      <p class="message">Already registered? <a href="/account">Sign In</a></p>
+                  </form>
+              </div>-->
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

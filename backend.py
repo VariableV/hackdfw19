@@ -51,8 +51,8 @@ def rentpage():
     for i in x:
         important = i[2]
         for j in range(0, len(important)):
-            # image, lotname, lotloc, googlemaps, lotcount, lotpph, name, phone, end time, start time
-            tmp = [important[j][3], important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7]]
+            # image, lotname, lotloc, googlemaps, lotcount, lotpph, name, phone, end time, start time, lot id
+            tmp = [important[j][3], important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7], important[j][0]]
             data.append(tmp)
     return render_template("rent-out.html", data = data)
 
@@ -118,6 +118,10 @@ def submit_backend():
         flash("nope")
     else:
         maindb.AddLot(session.get("user"), request.form["address"], request.form["count"], request.form["imageurl"], request.form["lotname"], request.form["pricing"], request.form["end"], request.form["start"])
+    return redirect("/rent")
+@web.route("/purchase", methods=["POST"])
+def purchase():
+    maindb.RemoveLot(session.get("user"), request.form["lotid"])
     return redirect("/rent")
 
 if __name__ == "__main__":

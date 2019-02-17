@@ -55,6 +55,9 @@ footer {
   padding: 8px 20px;
   font-size: 10px;
 }
+.button.buy{
+  margin-left: 1em;
+}
 .button.green {
   border: 1px solid #4ca15b;
   background: #6ab177;
