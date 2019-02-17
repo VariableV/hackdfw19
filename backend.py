@@ -100,6 +100,8 @@ def page_backend():
 # submit
 @web.route("/submit")
 def submit_frontend():
+    if (not session.get("logged_in")):
+        return redirect("/account")
     return render_template("submit.html")
 @web.route("/submit_bknd", methods=["POST"])
 def submit_backend():
