@@ -1,7 +1,7 @@
 /*** BODY COLORS ***/
 body {
-  background: #ffaf1f;
-  background: linear-gradient(#ffaf1f 0%, #ffaf1f 100%);
+  background: #53adfc;
+  background: linear-gradient(#53adfc 0%, #53adfc 100%);
 }
 body.blue {
   background: #adc9d2;
@@ -62,8 +62,8 @@ footer {
 }
 .button.blue {
   border: 1px solid #65a0b8;
-  background: #80bcd4;
-  background: linear-gradient(to bottom, #80bcd4 0%,#65a0b8 100%);
+  background: #53adfc;
+  background: linear-gradient(to bottom, #53adfc 0%,#65a0b8 100%);
 }
 .button.orange {
   border: 1px solid #ef8a00;

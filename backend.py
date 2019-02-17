@@ -6,10 +6,7 @@ web = Flask(__name__)
 
 """
 Things to do
--> Popup modal
-    -> Owner name
-    -> Phone Number
-    -> Purchase button
+-> Purchase button
 -> Register
 -> Login
 -> Add a lot button
@@ -31,6 +28,18 @@ Things to do
     ]
 """
 
+@web.route("/rent")
+def penis():
+    x = maindb.GetData()
+    data = []
+    for i in x:
+        important = i[2]
+        for j in range(0, len(important)):
+            # image, lotname, lotloc, googlemaps, lotcount, lotpph, name, phone, end time, start time
+            tmp = [important[j][3], important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7]]
+            data.append(tmp)
+    return render_template("rent-out.html", data = data)
+
 @web.route("/")
 def main():
     # data format:
@@ -43,16 +52,8 @@ def main():
     #    ["https://www.bdcnetwork.com/sites/bdc/files/parking.jpg", "Saad's house", addy, "https://google.com/maps/place/"+addy.replace(" ", "+"), 2, 12.99]
     #    ,["https://www.bdcnetwork.com/sites/bdc/files/parking.jpg", "Owen's house", addy2, "https://google.com/maps/place/"+addy2.replace(" ", "+"), 3, 12.99]
     #]
+    return render_template("index.html")
 
-    x = maindb.GetData()
-    data = []
-    for i in x:
-        important = i[2]
-        for j in range(0, len(important)):
-            # image, lotname, lotloc, googlemaps, lotcount, lotpph, name, phone, end time, start time
-            tmp = [important[j][3], important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7]]
-            data.append(tmp)
-    return render_template("index.html", data = data)
 
 if __name__ == "__main__":
     web.run()
