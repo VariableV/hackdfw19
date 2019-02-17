@@ -90,11 +90,11 @@ def CheckUser(UserName):
     UsersData = Firebase.get('/Users', None)
 
     for User in UsersData:
-        if UserName.lower() == User.lower():
+        if UserName == User:
             return True, Firebase
         else:
             pass
-    return False
+    return False, Firebase
 
 #Login User Through Site
 def LoginUser(UserName, PasswordEntered):

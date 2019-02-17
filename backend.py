@@ -8,9 +8,9 @@ web = Flask(__name__)
 """
 Things to do
 -> Purchase button
--> Register (FUNCTION-owen + HTML-maheen)
--> Login (FUNCTION-owen + HTML-maheen)
--> Add a Lot (FUNCTION-owen + HTML-maheen)
+-> Home Page
+-> Account Tab Has Purchased Spots
+-> Fix Start / End Time
 """
 
 
@@ -58,12 +58,12 @@ def rentpage():
 
 @web.route("/login", methods=["POST"])
 def login():
-    if request.form["user"] == "admin" and request.form["password"] == "pwd":
+    if (maindb.LoginUser(request.form['user'], request.form['password'])) == True:
         session["logged_in"] = True
-        print("hi")
+        session["user"] = request.form["user"]
     else:
         flash("Incorrect credentials!")
-    return main()
+    return redirect("/account")
 
 # account page
 @web.route("/account")
@@ -77,6 +77,7 @@ def acc():
 @web.route("/logout", methods=["GET"])
 def logout():
     session["logged_in"] = False
+    session["user"] = None
     return main()
 
 # register
@@ -93,7 +94,9 @@ def page_backend():
     len(request.form["phonenumber"]) == 0):
         flash("nope")
     else:
-        print("time to do the magic")
+        if(maindb.RegisterUser(request.form["username"],request.form["name"],request.form["email"],request.form["password"],request.form["phonenumber"])):
+            session["logged_in"] = True
+            session["user"] = request.form["username"]
     # to fill with owen's info
     return main()
 
@@ -114,7 +117,7 @@ def submit_backend():
     len(request.form["end"]) == 0):
         flash("nope")
     else:
-        print("time to do the magic")
+        maindb.AddLot(session.get("user"), request.form["address"], request.form["count"], request.form["imageurl"], request.form["lotname"], request.form["pricing"], request.form["end"], request.form["start"])
     return redirect("/rent")
 
 if __name__ == "__main__":
