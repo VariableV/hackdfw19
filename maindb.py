@@ -12,8 +12,8 @@ def GetData():
     UsersData = Firebase.get('/Users', None)
     arr = []
     for key,value in UsersData.items():
-        UserFullName, UserPhone, arr = RasterizeData(key, Firebase)
-        tmp = [UserFullName, UserPhone, arr]
+        UserFullName, UserPhone, xd = RasterizeData(key, Firebase)
+        tmp = [UserFullName, UserPhone, xd]
         arr.append(tmp)
 
     return arr

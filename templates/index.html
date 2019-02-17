@@ -33,19 +33,6 @@
         <input type="search" placeholder="Search..." />
        </form>
     </header>
- <!--   
-    <section class="hero grid3">
-      <h1>RB2132 901 NEW WAYFARER</h1>
-      <p>The Ray-Ban&reg; Wayfarer&reg; is simply the most recognizable style in sunglasses. 
-The distinct shape is paired with the traditional Ray-Ban signature logo on the sculpted temples. After its initial design in 1952, the Ray-Ban Wayfarer quickly endeared itself to Hollywood filmmakers, celebrities, musicians and artists, 
-solidifying its iconic status for years to come.</p>
-      <a href="" class="button normal green">FIND OUT MORE</a>
-    </section>
-    -->
-    <br>
-    
-
-<!-- Modal -->
 
     {% for item in data %}
     <section class="product grid1">
@@ -66,7 +53,14 @@ solidifying its iconic status for years to come.</p>
                         <h4 class="modal-title">{{item[1]}}</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Some text in the modal.</p>
+                        <p><b>Contact name:</b> {{item[6]}}<br>
+                          <b>Contact phone:</b> {{item[7]}}<br>
+                          <b>Lot address:</b><a href="{{ item[3]}}"> {{ item[2]}}</a><br>
+                          <b>Lot capacity:</b> {{item[4]}}<br>
+                          <b>Lot pricing:</b> {{item[5]}}<br>
+                          <b>Rent start time:</b> {{item[9]}}<br>
+                          <b>Rent end time:</b> {{item[8]}}
+                          </p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -79,60 +73,7 @@ solidifying its iconic status for years to come.</p>
       </div>
     </section>
     {% endfor %}
-  <!--  
-    <section class="graphic grid2">
-      <img src="https://i.imgur.com/6PfAoMJ.png" alt="" />
-      <div class="statics">
-        <span>
-          <h3>9,374</h3>
-          <h2>Sales This Week</h2>
-        </span>
-        <span>
-          <h3>125,457</h3>
-          <h2>Total Sales</h2>
-        </span>
-        <span>
-          <h3>+ 17%</h3>
-          <h2>Total Income</h2>
-        </span>
-      </div>
-    </section>
     
-    <section class="basket grid2">
-      <h1>Shopping Bag</h1>
-      <ul>
-        <li>
-          <img src="https://i.imgur.com/fcIKU7I.png" alt="" />
-          <h2>Vans Vault 2012 Summer OG Era LX Pack</h2>
-          <a href="" class="remove">[Remove]</a>
-          <span class="price">£54.00</span>
-          <span class="count">1</span>
-        </li>
-        <li>
-          <img src="https://i.imgur.com/dOi0IgF.png" alt="" />
-          <h2>Emerica Pure 12 T Shirt Red</h2>
-          <a href="" class="remove">[Remove]</a>
-          <span class="price">£32.00</span>
-          <span class="count">2</span>
-        </li>
-        <li>
-          <img src="https://i.imgur.com/POnvn0N.png" alt="" />
-          <h2>Fred Perry Dark Yellow Checked Shirt</h2>
-          <a href="" class="remove">[Remove]</a>
-          <span class="price">£70.00</span>
-          <span class="count">1</span>
-        </li>
-      </ul>
-      <span class="total">Total: £156.00</span>
-      <a href="" class="button small orange">CHECKOUT</a>
-    </section>
-    
-    <section class="address grid1">
-      <iframe width="100%" height="328" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=33.989879,-118.475579&amp;num=1&amp;ie=UTF8&amp;t=m&amp;z=14&amp;ll=33.989345,-118.475146&amp;output=embed"></iframe>
-      <h1>1600 Pacific Ave</h1>
-      <h2>Venice, CA, United States</h2>
-    </section>
-    -->
     <footer>
       <h4>Ecommerce Elements</h4>
       <ul class="social">
