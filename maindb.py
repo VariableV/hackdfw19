@@ -114,26 +114,43 @@ def LoginUser(UserName, PasswordEntered):
         return False
 
 #Remove Lot On Sale Or Removal
-def RemoveLot(UserName, LotID):
+def RemoveLot(User, LotID):
     Firebase = firebase.FirebaseApplication(FirebaseURL, None)
-    Firebase.delete(f"Users/{str(UserName)}/UserParking", LotID)
+    UsersData = Firebase.get('/Users', None)
+    for User in UsersData:
+        ParkingSpotData = Firebase.get(f"Users/{str(User)}/UserParking", None)
+        for Spot in ParkingSpotData:
+            if Spot == LotID:
+                ParkingSPotData = Firebase.get(f"Users/{str(User)}/UserParking", LotID)
+                UserData = Firebase.get(f"Users/{User}", "UserInfo")
+                CustomerName = UserData['name']
+                CustomerEmail = UserData['email']
+                SendEmail(CustomerEmail, CustomerName, ParkingSPotData, UserData)
+                Firebase.delete(f"Users/{str(User)}/UserParking", LotID)
 
 #Send Purchase Email
-def SendEmail(receiver_email, CustomerName):
+def SendEmail(CustomerEmail, CustomerName, ParkingSPotData, UserData):
     sender_email = "LendASpacePurchase@gmail.com"
     password = "AdminLogin22"
 
     message = MIMEMultipart("alternative")
-    message["Subject"] = "Your Lot From Lend-A-Space"
+    message["Subject"] = "Update From Lend-A-Space"
     message["From"] = sender_email
-    message["To"] = receiver_email
+    message["To"] = CustomerEmail
 
     html = f"""\
     <html>
     <body>
         <p>Hi, {str(CustomerName)}<br>
-        How are you?<br>
-        <a href="http://www.realpython.com">Here is information on your Lend-A-Space!</a> 
+        <p><b>Contact name:</b> {str(UserData['name'])}<br>
+            <b>Contact phone:</b> {str(UserData['phone'])}<br>
+            <b>Contact email:</b> {str(UserData['email'])}<br>
+            <b>Lot address:</b><a href="{"https://google.com/maps/place/"+ParkingSPotData['address'].replace(" ", "+")}"> {ParkingSPotData['address']}</a><br>
+            <b>Lot capacity:</b> {ParkingSPotData['count']}<br>
+            <b>Lot pricing:</b> {ParkingSPotData['pricing']}<br>
+            <b>Rent start time:</b> {ParkingSPotData['time-start']}<br>
+            <b>Rent end time:</b> {ParkingSPotData['time-end']}
+        </p>
         </p>
     </body>
     </html>
@@ -147,6 +164,31 @@ def SendEmail(receiver_email, CustomerName):
         server.login(sender_email, password)
         server.sendmail(
             sender_email,
-            receiver_email,
+            CustomerEmail,
             message.as_string(),
         )
+
+#Get Users Current Lots -- For Account Dashboard
+def GetUserLots(UserName):
+    Firebase = firebase.FirebaseApplication(FirebaseURL, None)
+    CurrentUser = Firebase.get('/Users', f'{str(UserName)}')
+    UserInfo = CurrentUser['UserInfo']
+    UserParking = CurrentUser['UserParking']
+
+    UserEmail = UserInfo['email']
+    UserFullName = UserInfo['name']
+    UserPhone = UserInfo['phone']
+
+    arr = []
+    for CurrentLot,v in UserParking.items():
+        LotLocation = v['address']
+        LotCount = v['count']
+        LotImage = v['imageURL']
+        LotName = v['lotname']
+        LotPPH = v['pricing']
+        LotTimeStart = v['time-start']
+        LotTimeEnd = v['time-end']
+        tmp = [CurrentLot, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTimeEnd]
+        arr.append(tmp)
+    
+    return UserFullName, UserPhone, UserEmail, arr
