@@ -94,7 +94,7 @@ def CheckUser(UserName):
             return True, Firebase
         else:
             pass
-    return False
+    return False, Firebase
 
 #Login User Through Site
 def LoginUser(UserName, PasswordEntered):
