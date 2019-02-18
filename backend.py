@@ -50,9 +50,12 @@ def rentpage():
     data = []
     for i in x:
         important = i[2]
+        image = important[j][3]
+        if image == 'none':
+            image = 'https://i.imgur.com/kHRLehQ.png'
         for j in range(0, len(important)):
             # image, lotname, lotloc, googlemaps, lotcount, lotpph, name, phone, end time, start time, lot id
-            tmp = [important[j][3], important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7], important[j][0]]
+            tmp = [image, important[j][4], important[j][1], "https://google.com/maps/place/"+important[j][1].replace(" ", "+"), important[j][2], important[j][5], i[0], i[1], important[j][6], important[j][7], important[j][0]]
             data.append(tmp)
     return render_template("rent-out.html", data = data)
 
