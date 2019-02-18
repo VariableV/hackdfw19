@@ -24,24 +24,27 @@ def GetData():
 def IterateData(UserName, Firebase):
     CurrentUser = Firebase.get('/Users', f'{str(UserName)}')
     UserInfo = CurrentUser['UserInfo']
-    UserParking = CurrentUser['UserParking']
 
-    #UserEmail = UserInfo['email']
     UserFullName = UserInfo['name']
-    #UserPassword = UserInfo['password']
     UserPhone = UserInfo['phone']
-
+    
     arr = []
-    for CurrentLot,v in UserParking.items():
-        LotLocation = v.get('address')
-        LotCount = v['count']
-        LotImage = v['imageURL']
-        LotName = v['lotname']
-        LotPPH = v['pricing']
-        LotTimeStart = v['time-start']
-        LotTimeEnd = v['time-end']
-        tmp = [CurrentLot, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTimeEnd]
-        arr.append(tmp)
+    try:
+        UserParking = CurrentUser['UserParking']
+
+        arr = []
+        for CurrentLot,v in UserParking.items():
+            LotLocation = v.get('address')
+            LotCount = v['count']
+            LotImage = v['imageURL']
+            LotName = v['lotname']
+            LotPPH = v['pricing']
+            LotTimeStart = v['time-start']
+            LotTimeEnd = v['time-end']
+            tmp = [CurrentLot, LotLocation, LotCount, LotImage, LotName, LotPPH, LotTimeStart, LotTimeEnd]
+            arr.append(tmp)
+    except:
+        pass
     
     return UserFullName, UserPhone, arr
 
